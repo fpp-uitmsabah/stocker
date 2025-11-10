@@ -2,6 +2,7 @@ const themeToggleBtn = document.getElementById('theme-toggle');
 const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
 const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 let chartInstance = null;
+let candleStickSeries = null;
 
 if (
   localStorage.getItem('color-theme') === 'dark' ||
@@ -486,6 +487,9 @@ function renderChart(data, theme, symbol) {
     wickDownColor: theme === 'dark' ? '#ef4444' : '#dc2626',
     wickUpColor: theme === 'dark' ? '#10b981' : '#22c55e',
   });
+  
+  // Store reference globally for drawing tools
+  candleStickSeries = candleSeries;
 
   candleSeries.setData(data);
   chartInstance.timeScale().fitContent();
@@ -839,10 +843,13 @@ clearDrawingsBtn.addEventListener('click', () => {
     if (drawing.series) {
       chartInstance.removeSeries(drawing.series);
     }
-    if (drawing.marker) {
-      drawing.marker.remove();
-    }
   });
+  
+  // Clear all markers from candlestick series
+  if (candleStickSeries) {
+    candleStickSeries.setMarkers([]);
+  }
+  
   drawings = [];
 });
 
@@ -989,49 +996,30 @@ function drawArrow(start, end) {
 }
 
 function drawText(position) {
-  if (!chartInstance) return;
+  if (!chartInstance || !candleStickSeries) return;
   
   const text = prompt('Enter text annotation:');
-  if (!text) return;
-  
-  // Create a candlestick series to add markers
-  const candleSeries = chartInstance.getCandlestickSeries && chartInstance.getCandlestickSeries();
-  
-  if (candleSeries) {
-    const existingMarkers = candleSeries.markers() || [];
-    candleSeries.setMarkers([
-      ...existingMarkers,
-      {
-        time: position.time,
-        position: 'aboveBar',
-        color: drawingColor,
-        shape: 'circle',
-        text: text,
-      },
-    ]);
-    
-    drawings.push({ type: 'text', position, text });
-  } else {
-    // Fallback: create a line series for the marker
-    const markerSeries = chartInstance.addLineSeries({
-      color: 'transparent',
-      crosshairMarkerVisible: false,
-      lastValueVisible: false,
-      priceLineVisible: false,
-    });
-    
-    markerSeries.setMarkers([
-      {
-        time: position.time,
-        position: 'aboveBar',
-        color: drawingColor,
-        shape: 'circle',
-        text: text,
-      },
-    ]);
-    
-    drawings.push({ type: 'text', series: markerSeries, position, text });
+  if (!text) {
+    isDrawing = false;
+    drawingStart = null;
+    return;
   }
+  
+  // Get existing markers or initialize empty array
+  const existingMarkers = candleStickSeries.markers ? candleStickSeries.markers() : [];
+  
+  // Add new marker
+  const newMarker = {
+    time: position.time,
+    position: 'aboveBar',
+    color: drawingColor,
+    shape: 'circle',
+    text: text,
+  };
+  
+  candleStickSeries.setMarkers([...existingMarkers, newMarker]);
+  
+  drawings.push({ type: 'text', position, text, marker: newMarker });
 }
 
 // Enable drawing when chart is ready
