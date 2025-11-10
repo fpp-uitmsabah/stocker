@@ -2,6 +2,7 @@ const themeToggleBtn = document.getElementById('theme-toggle');
 const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
 const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 let chartInstance = null;
+let candleStickSeries = null;
 
 if (
   localStorage.getItem('color-theme') === 'dark' ||
@@ -25,7 +26,7 @@ themeToggleBtn.addEventListener('click', function () {
   localStorage.setItem('color-theme', currentTheme);
   if (chartInstance) {
     const symbol =
-      document.getElementById('stock-search').value.toUpperCase() || 'AAPL';
+      document.getElementById('stock-search').value.toUpperCase() || 'MAYBANK';
     renderChart(generateStockData(100), currentTheme, symbol);
   }
 });
@@ -115,141 +116,141 @@ closePriceAlertModalBtn.addEventListener('click', () =>
 );
 
 const dummyStockData = {
-  AAPL: {
-    name: 'Apple Inc.',
-    price: 170.34,
-    change: '+1.25',
-    changePercent: '+0.73%',
-    marketCap: '2.8T',
-    peRatio: 28.5,
-    volume: '75M',
-    open: 169.8,
-    high: 171.05,
-    low: 169.5,
-    yearHigh: 198.23,
-    yearLow: 150.23,
+  MAYBANK: {
+    name: 'Malayan Banking Berhad',
+    price: 9.85,
+    change: '+0.15',
+    changePercent: '+1.55%',
+    marketCap: '120.5B',
+    peRatio: 12.3,
+    volume: '8.5M',
+    open: 9.70,
+    high: 9.90,
+    low: 9.65,
+    yearHigh: 10.20,
+    yearLow: 8.45,
   },
-  MSFT: {
-    name: 'Microsoft Corp.',
-    price: 420.72,
-    change: '-0.50',
-    changePercent: '-0.12%',
-    marketCap: '3.1T',
-    peRatio: 35.2,
-    volume: '22M',
-    open: 421.0,
-    high: 422.5,
-    low: 419.8,
-    yearHigh: 430.82,
-    yearLow: 309.45,
+  TENAGA: {
+    name: 'Tenaga Nasional Berhad',
+    price: 11.24,
+    change: '-0.08',
+    changePercent: '-0.71%',
+    marketCap: '65.8B',
+    peRatio: 15.6,
+    volume: '5.2M',
+    open: 11.32,
+    high: 11.40,
+    low: 11.20,
+    yearHigh: 12.80,
+    yearLow: 9.90,
   },
-  GOOG: {
-    name: 'Alphabet Inc. (C)',
-    price: 175.6,
-    change: '+2.10',
-    changePercent: '+1.21%',
-    marketCap: '2.1T',
-    peRatio: 26.8,
-    volume: '30M',
-    open: 174.0,
-    high: 176.5,
-    low: 173.8,
-    yearHigh: 180.1,
-    yearLow: 120.45,
+  CIMB: {
+    name: 'CIMB Group Holdings Berhad',
+    price: 6.78,
+    change: '+0.12',
+    changePercent: '+1.80%',
+    marketCap: '68.2B',
+    peRatio: 10.8,
+    volume: '12.3M',
+    open: 6.66,
+    high: 6.82,
+    low: 6.60,
+    yearHigh: 7.20,
+    yearLow: 5.45,
   },
-  AMZN: {
-    name: 'Amazon.com Inc.',
-    price: 180.97,
-    change: '-1.80',
-    changePercent: '-0.98%',
-    marketCap: '1.9T',
-    peRatio: 55.1,
-    volume: '45M',
-    open: 182.0,
-    high: 182.5,
-    low: 180.1,
-    yearHigh: 189.77,
-    yearLow: 118.35,
+  PUBLIC: {
+    name: 'Public Bank Berhad',
+    price: 4.55,
+    change: '-0.05',
+    changePercent: '-1.09%',
+    marketCap: '87.5B',
+    peRatio: 13.2,
+    volume: '15.8M',
+    open: 4.60,
+    high: 4.62,
+    low: 4.52,
+    yearHigh: 4.85,
+    yearLow: 4.10,
   },
-  TSLA: {
-    name: 'Tesla Inc.',
-    price: 177.46,
-    change: '+3.50',
-    changePercent: '+2.01%',
-    marketCap: '560B',
-    peRatio: 38.7,
-    volume: '105M',
-    open: 175.0,
-    high: 178.5,
-    low: 174.2,
-    yearHigh: 299.29,
-    yearLow: 138.8,
+  PETRONAS: {
+    name: 'Petronas Chemicals Group',
+    price: 7.86,
+    change: '+0.18',
+    changePercent: '+2.34%',
+    marketCap: '52.4B',
+    peRatio: 18.5,
+    volume: '6.9M',
+    open: 7.68,
+    high: 7.92,
+    low: 7.65,
+    yearHigh: 9.15,
+    yearLow: 6.80,
   },
-  NVDA: {
-    name: 'NVIDIA Corporation',
-    price: 900.55,
-    change: '+15.20',
-    changePercent: '+1.72%',
-    marketCap: '2.2T',
-    peRatio: 70.5,
-    volume: '55M',
-    open: 890.0,
-    high: 905.6,
-    low: 888.5,
-    yearHigh: 974.0,
-    yearLow: 373.56,
+  SIME: {
+    name: 'Sime Darby Berhad',
+    price: 2.48,
+    change: '+0.08',
+    changePercent: '+3.33%',
+    marketCap: '17.2B',
+    peRatio: 16.4,
+    volume: '22.5M',
+    open: 2.40,
+    high: 2.52,
+    low: 2.38,
+    yearHigh: 2.95,
+    yearLow: 2.15,
   },
-  META: {
-    name: 'Meta Platforms Inc.',
-    price: 480.1,
-    change: '-2.30',
-    changePercent: '-0.48%',
-    marketCap: '1.2T',
-    peRatio: 29.3,
-    volume: '18M',
-    open: 482.0,
-    high: 483.5,
-    low: 479.0,
-    yearHigh: 531.49,
-    yearLow: 274.32,
+  DIGI: {
+    name: 'Digi.Com Berhad',
+    price: 3.92,
+    change: '-0.04',
+    changePercent: '-1.01%',
+    marketCap: '29.4B',
+    peRatio: 22.1,
+    volume: '4.2M',
+    open: 3.96,
+    high: 3.98,
+    low: 3.90,
+    yearHigh: 4.35,
+    yearLow: 3.65,
   },
 };
 
 const dummyNews = [
   {
     id: 1,
-    title: 'Tech Stocks Rally on Positive Economic Outlook',
-    source: 'Market News Today',
+    title: 'Banking Stocks Rally on Positive Economic Outlook',
+    source: 'Bursa Malaysia Today',
     time: '2h ago',
-    symbol: 'AAPL',
+    symbol: 'MAYBANK',
   },
   {
     id: 2,
-    title: 'Federal Reserve Hints at Interest Rate Stability',
-    source: 'Global Finance Times',
+    title: 'Bank Negara Malaysia Maintains Overnight Policy Rate',
+    source: 'The Edge Markets',
     time: '3h ago',
     symbol: 'General',
   },
   {
     id: 3,
-    title: 'NVDA Hits New Highs Amidst AI Boom',
-    source: 'TechCrunch',
+    title: 'PETRONAS Chemical Posts Strong Quarter Results',
+    source: 'The Star',
     time: '1h ago',
-    symbol: 'NVDA',
+    symbol: 'PETRONAS',
   },
   {
     id: 4,
-    title: 'E-commerce Sector Sees Mixed Results',
-    source: 'Retail Insights',
+    title: 'Plantation Sector Sees Mixed Performance',
+    source: 'Malaysian Reserve',
     time: '4h ago',
-    symbol: 'AMZN',
+    symbol: 'SIME',
   },
   {
     id: 5,
-    title: "Analyst Upgrades MSFT to 'Strong Buy'",
-    source: 'Investment Weekly',
+    title: "Analyst Upgrades TENAGA to 'Buy'",
+    source: 'Investment Insights MY',
     time: '5h ago',
-    symbol: 'MSFT',
+    symbol: 'TENAGA',
   },
 ];
 
@@ -385,7 +386,7 @@ function displayStockDetails(stock, symbol = 'N/A') {
       <div class="flex justify-between items-baseline">
           <p class="text-3xl font-bold">${stock.price.toFixed(
             2
-          )} <span class="text-xs text-gray-500 dark:text-gray-400">USD</span></p>
+          )} <span class="text-xs text-gray-500 dark:text-gray-400">MYR</span></p>
           <p class="text-lg ${changeClass}">${stock.change} (${
 stock.changePercent
 })</p>
@@ -486,10 +487,18 @@ function renderChart(data, theme, symbol) {
     wickDownColor: theme === 'dark' ? '#ef4444' : '#dc2626',
     wickUpColor: theme === 'dark' ? '#10b981' : '#22c55e',
   });
+  
+  // Store reference globally for drawing tools
+  candleStickSeries = candleSeries;
 
   candleSeries.setData(data);
   chartInstance.timeScale().fitContent();
   chartLoader.classList.add('hidden');
+  
+  // Re-enable drawing tools after chart is rendered
+  setTimeout(() => {
+    enableDrawingOnChart();
+  }, 100);
 
   window.addEventListener('resize', () => {
     if (
@@ -508,7 +517,7 @@ function renderChart(data, theme, symbol) {
 renderChart(
   generateStockData(100),
   localStorage.getItem('color-theme') || 'light',
-  'AAPL'
+  'MAYBANK'
 );
 
 const topGainersList = document.getElementById('top-gainers-list');
@@ -749,7 +758,7 @@ document.addEventListener('DOMContentLoaded', () => {
   populateNewsFeed();
   displayStockDetails(null);
   if (!searchInput.value) {
-    searchInput.value = 'AAPL';
+    searchInput.value = 'MAYBANK';
     performSearch();
   }
 
@@ -781,3 +790,239 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// Drawing Tools Functionality
+let currentDrawingTool = null;
+let drawingColor = '#3b82f6';
+let drawings = [];
+let isDrawing = false;
+let drawingStart = null;
+
+// Drawing tool buttons
+const toolButtons = {
+  trendline: document.getElementById('tool-trendline'),
+  horizontalRay: document.getElementById('tool-horizontal-ray'),
+  arrow: document.getElementById('tool-arrow'),
+  text: document.getElementById('tool-text'),
+};
+
+const drawingColorPicker = document.getElementById('drawing-color');
+const clearDrawingsBtn = document.getElementById('clear-drawings');
+
+// Set drawing color
+drawingColorPicker.addEventListener('change', (e) => {
+  drawingColor = e.target.value;
+});
+
+// Tool button click handlers
+Object.keys(toolButtons).forEach((toolName) => {
+  toolButtons[toolName].addEventListener('click', () => {
+    // Toggle tool selection
+    if (currentDrawingTool === toolName) {
+      currentDrawingTool = null;
+      toolButtons[toolName].classList.remove('bg-indigo-500', 'text-white', 'dark:bg-indigo-600');
+      toolButtons[toolName].classList.add('bg-white', 'dark:bg-gray-600');
+    } else {
+      // Deselect all tools
+      Object.keys(toolButtons).forEach((t) => {
+        toolButtons[t].classList.remove('bg-indigo-500', 'text-white', 'dark:bg-indigo-600');
+        toolButtons[t].classList.add('bg-white', 'dark:bg-gray-600');
+      });
+      
+      // Select current tool
+      currentDrawingTool = toolName;
+      toolButtons[toolName].classList.add('bg-indigo-500', 'text-white', 'dark:bg-indigo-600');
+      toolButtons[toolName].classList.remove('bg-white', 'dark:bg-gray-600');
+    }
+  });
+});
+
+// Clear all drawings
+clearDrawingsBtn.addEventListener('click', () => {
+  drawings.forEach(drawing => {
+    if (drawing.series) {
+      chartInstance.removeSeries(drawing.series);
+    }
+  });
+  
+  // Clear all markers from candlestick series
+  if (candleStickSeries) {
+    candleStickSeries.setMarkers([]);
+  }
+  
+  drawings = [];
+});
+
+// Chart click handler for drawing
+let chartClickHandler = null;
+
+function enableDrawingOnChart() {
+  if (!chartInstance) return;
+  
+  const chartContainer = document.getElementById('chart-container');
+  
+  if (chartClickHandler) {
+    chartContainer.removeEventListener('click', chartClickHandler);
+  }
+  
+  chartClickHandler = (event) => {
+    if (!currentDrawingTool) return;
+    
+    const rect = chartContainer.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    
+    // Convert pixel coordinates to chart coordinates (approximate)
+    const timeScale = chartInstance.timeScale();
+    const priceScale = chartInstance.priceScale();
+    
+    try {
+      const time = timeScale.coordinateToTime(x);
+      const price = priceScale.coordinateToPrice(y);
+      
+      if (!time || !price) return;
+      
+      handleDrawing(time, price);
+    } catch (error) {
+      console.error('Error drawing:', error);
+    }
+  };
+  
+  chartContainer.addEventListener('click', chartClickHandler);
+}
+
+function handleDrawing(time, price) {
+  if (!currentDrawingTool) return;
+  
+  if (!isDrawing) {
+    // Start drawing
+    drawingStart = { time, price };
+    isDrawing = true;
+  } else {
+    // Complete drawing
+    const drawingEnd = { time, price };
+    
+    switch (currentDrawingTool) {
+      case 'trendline':
+        drawTrendline(drawingStart, drawingEnd);
+        break;
+      case 'horizontalRay':
+        drawHorizontalRay(drawingStart, drawingEnd);
+        break;
+      case 'arrow':
+        drawArrow(drawingStart, drawingEnd);
+        break;
+      case 'text':
+        drawText(drawingStart);
+        break;
+    }
+    
+    isDrawing = false;
+    drawingStart = null;
+  }
+}
+
+function drawTrendline(start, end) {
+  if (!chartInstance) return;
+  
+  const lineSeries = chartInstance.addLineSeries({
+    color: drawingColor,
+    lineWidth: 2,
+    lineStyle: 0, // Solid
+    crosshairMarkerVisible: false,
+    lastValueVisible: false,
+    priceLineVisible: false,
+  });
+  
+  lineSeries.setData([
+    { time: start.time, value: start.price },
+    { time: end.time, value: end.price },
+  ]);
+  
+  drawings.push({ type: 'trendline', series: lineSeries, start, end });
+}
+
+function drawHorizontalRay(start, end) {
+  if (!chartInstance) return;
+  
+  const lineSeries = chartInstance.addLineSeries({
+    color: drawingColor,
+    lineWidth: 2,
+    lineStyle: 0,
+    crosshairMarkerVisible: false,
+    lastValueVisible: false,
+    priceLineVisible: false,
+  });
+  
+  // Horizontal ray uses the start price
+  lineSeries.setData([
+    { time: start.time, value: start.price },
+    { time: end.time, value: start.price },
+  ]);
+  
+  drawings.push({ type: 'horizontalRay', series: lineSeries, start, end });
+}
+
+function drawArrow(start, end) {
+  if (!chartInstance) return;
+  
+  // Draw line first
+  const lineSeries = chartInstance.addLineSeries({
+    color: drawingColor,
+    lineWidth: 2,
+    lineStyle: 0,
+    crosshairMarkerVisible: false,
+    lastValueVisible: false,
+    priceLineVisible: false,
+  });
+  
+  lineSeries.setData([
+    { time: start.time, value: start.price },
+    { time: end.time, value: end.price },
+  ]);
+  
+  // Add arrowhead marker at the end
+  lineSeries.setMarkers([
+    {
+      time: end.time,
+      position: 'inBar',
+      color: drawingColor,
+      shape: 'arrowUp',
+      text: '',
+    },
+  ]);
+  
+  drawings.push({ type: 'arrow', series: lineSeries, start, end });
+}
+
+function drawText(position) {
+  if (!chartInstance || !candleStickSeries) return;
+  
+  const text = prompt('Enter text annotation:');
+  if (!text) {
+    isDrawing = false;
+    drawingStart = null;
+    return;
+  }
+  
+  // Get existing markers or initialize empty array
+  const existingMarkers = candleStickSeries.markers ? candleStickSeries.markers() : [];
+  
+  // Add new marker
+  const newMarker = {
+    time: position.time,
+    position: 'aboveBar',
+    color: drawingColor,
+    shape: 'circle',
+    text: text,
+  };
+  
+  candleStickSeries.setMarkers([...existingMarkers, newMarker]);
+  
+  drawings.push({ type: 'text', position, text, marker: newMarker });
+}
+
+// Enable drawing when chart is ready
+setTimeout(() => {
+  enableDrawingOnChart();
+}, 1000);
